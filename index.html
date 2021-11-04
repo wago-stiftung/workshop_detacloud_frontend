@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Deta Cloud - Frontend</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            
+        }
+        body {
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            height: 100px;
+            width: 100%;
+            background-color: #1F2837;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        header>div {
+            width: 80%;
+            max-width: 1024px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+        #logo {
+            height: 70px;
+        }
+        #pageheading {
+            text-transform: uppercase;
+        }
+        main {
+            background-color: white;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #floorplan {
+            width: 80%;
+            max-width: 1024px;
+        }
+        .off {
+            display: none;
+        }
+        .on {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <img id="logo" src="assets/wago_stiftung.svg" alt="WAGO Stiftung" >
+            <h1 id="pageheading">Workshop Deta Cloud</h1>
+        </div>
+    </header>
+    <main>
+        <svg id="floorplan" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156 110" >
+            <defs>
+                <radialGradient id="rgrad" cx="50%" cy="50%" r="25%" >
+                    <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:0.70" />
+                    <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity:0.00" />
+                </radialGradient>
+            </defs>
+            <image x="0" y="0" width="156" height="110" href="assets/floorplan.jpg"></image>
+            <!-- <rect width="100" height="100" stroke="black" stroke-width="1" fill="none"/> -->
+            <circle class="off" id="esstisch" cx="48" cy="92" r="20" height="20" fill="url(#rgrad)"/>
+            <circle class="off" id="couchtisch" cx="57" cy="51" r="20" height="20" fill="url(#rgrad)"/>
+            <circle class="off" id="gaestezimmer" cx="66" cy="18" r="30" height="20" fill="url(#rgrad)"/>
+            <circle class="off" id="schlafzimmer" cx="110" cy="28" r="30" height="20" fill="url(#rgrad)"/>
+            <circle class="off" id="bad1" cx="142" cy="14" r="20" height="20" fill="url(#rgrad)"/>
+            <circle class="off" id="bad2" cx="142" cy="30" r="20" height="20" fill="url(#rgrad)"/>
+            <circle class="off" id="bad3" cx="142" cy="55" r="20" height="20" fill="url(#rgrad)"/>
+            <circle class="off" id="garderobe" cx="140" cy="82" r="20" height="20" fill="url(#rgrad)"/>
+            <circle class="off" id="flur" cx="122" cy="82" r="20" height="20" fill="url(#rgrad)"/>
+            <circle class="off" id="kueche" cx="122" cy="82" r="20" height="20" fill="url(#rgrad)"/>
+        </svg>
+    </main>
+</body>
+</html>

@@ -6244,7 +6244,55 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (model) {
 	return $elm$core$Platform$Sub$none;
 };
+var $author$project$Main$LightToggled = function (a) {
+	return {$: 'LightToggled', a: a};
+};
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$http$Http$expectBytesResponse = F2(
+	function (toMsg, toResult) {
+		return A3(
+			_Http_expect,
+			'arraybuffer',
+			_Http_toDataView,
+			A2($elm$core$Basics$composeR, toResult, toMsg));
+	});
+var $elm$http$Http$expectWhatever = function (toMsg) {
+	return A2(
+		$elm$http$Http$expectBytesResponse,
+		toMsg,
+		$elm$http$Http$resolve(
+			function (_v0) {
+				return $elm$core$Result$Ok(_Utils_Tuple0);
+			}));
+};
+var $elm$http$Http$jsonBody = function (value) {
+	return A2(
+		_Http_pair,
+		'application/json',
+		A2($elm$json$Json$Encode$encode, 0, value));
+};
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$core$Basics$not = _Basics_not;
+var $elm$http$Http$post = function (r) {
+	return $elm$http$Http$request(
+		{body: r.body, expect: r.expect, headers: _List_Nil, method: 'POST', timeout: $elm$core$Maybe$Nothing, tracker: $elm$core$Maybe$Nothing, url: r.url});
+};
+var $author$project$Main$cmdToggleLight = F2(
+	function (model, name) {
+		var state = A2($elm$core$Dict$get, name, model.lights);
+		if (state.$ === 'Just') {
+			var s = state.a;
+			return $elm$http$Http$post(
+				{
+					body: $elm$http$Http$jsonBody(
+						$elm$json$Json$Encode$bool(!s)),
+					expect: $elm$http$Http$expectWhatever($author$project$Main$LightToggled),
+					url: model.url + ('/' + name)
+				});
+		} else {
+			return $elm$core$Platform$Cmd$none;
+		}
+	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -6285,13 +6333,20 @@ var $author$project$Main$update = F2(
 						model,
 						{time: newTime}),
 					$elm$core$Platform$Cmd$none);
-			default:
+			case 'AdjustTimeZone':
 				var newZone = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{zone: newZone}),
 					$elm$core$Platform$Cmd$none);
+			case 'ToggleLight':
+				var name = msg.a;
+				return _Utils_Tuple2(
+					model,
+					A2($author$project$Main$cmdToggleLight, model, name));
+			default:
+				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$Main$GetLights = {$: 'GetLights'};
@@ -6335,9 +6390,18 @@ var $elm$svg$Svg$radialGradient = $elm$svg$Svg$trustedNode('radialGradient');
 var $elm$svg$Svg$stop = $elm$svg$Svg$trustedNode('stop');
 var $elm$svg$Svg$Attributes$style = _VirtualDom_attribute('style');
 var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $author$project$Main$ToggleLight = function (a) {
+	return {$: 'ToggleLight', a: a};
+};
 var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
 var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
 var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
+var $elm$svg$Svg$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
 		if (maybe.$ === 'Just') {
@@ -6361,7 +6425,9 @@ var $author$project$Main$svgLight = F5(
 					$elm$svg$Svg$Attributes$cx(cx),
 					$elm$svg$Svg$Attributes$cy(cy),
 					$elm$svg$Svg$Attributes$r(r),
-					$elm$svg$Svg$Attributes$fill('url(#rgrad)')
+					$elm$svg$Svg$Attributes$fill('url(#rgrad)'),
+					$elm$svg$Svg$Events$onClick(
+					$author$project$Main$ToggleLight(name))
 				]),
 			_List_Nil);
 	});

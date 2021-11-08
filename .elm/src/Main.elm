@@ -7,8 +7,10 @@ import Html.Attributes as Attr
 import Html.Events as HE exposing (onClick)
 import Svg
 import Svg.Attributes as SvgAttr
+import Svg.Events as SvgEvent
 import Http
 import Json.Decode as D exposing (Decoder)
+import Json.Encode as E
 import Dict exposing (Dict)
 import Task
 import Time
@@ -25,15 +27,6 @@ type alias Model =
     , zone : Time.Zone
     , time : Time.Posix
     }
-
-
-type Msg
-    = GetLights
-    | Increment
-    | Decrement
-    | GotLights (Result Http.Error Lights)
-    | AdjustTimeZone Time.Zone
-    | Tick Time.Posix
 
 
 initialModel : Model
@@ -65,6 +58,17 @@ init url =
         , cmdGetLights url
         ]
     )
+
+type Msg
+    = GetLights
+    | Increment
+    | Decrement
+    | GotLights (Result Http.Error Lights)
+    | AdjustTimeZone Time.Zone
+    | Tick Time.Posix
+    | ToggleLight String
+    | LightToggled (Result Http.Error ())
+
 
 -- UPDATES
 
@@ -99,11 +103,19 @@ update msg model =
             ( { model | time = newTime }
             , Cmd.none
             )
-
+        
         AdjustTimeZone newZone ->
             ( { model | zone = newZone }
             , Cmd.none
             )
+        
+        ToggleLight name ->
+            ( model 
+            , cmdToggleLight model name
+            )
+        
+        LightToggled _ -> 
+            ( model, Cmd.none )
 
 
 -- VIEWS
@@ -169,6 +181,7 @@ svgLight model name cx cy r =
         , SvgAttr.r r
         -- , SvgAttr.height height
         , SvgAttr.fill "url(#rgrad)"
+        , SvgEvent.onClick <| ToggleLight name
         ]
         []
 
@@ -201,3 +214,18 @@ cmdGetLights url =
         , expect = Http.expectJson GotLights (D.dict D.bool)
         }
 
+cmdToggleLight : Model -> String -> Cmd Msg
+cmdToggleLight model name =
+    let
+        state = Dict.get name model.lights
+    in
+    case state of
+        Just s ->
+            Http.post
+                { url = model.url ++ "/" ++ name
+                , body = Http.jsonBody <| E.bool (not s)
+                , expect = Http.expectWhatever LightToggled
+                }
+        
+        Nothing ->
+            Cmd.none

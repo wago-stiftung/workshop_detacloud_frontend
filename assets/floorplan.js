@@ -6390,19 +6390,9 @@ var $elm$svg$Svg$radialGradient = $elm$svg$Svg$trustedNode('radialGradient');
 var $elm$svg$Svg$stop = $elm$svg$Svg$trustedNode('stop');
 var $elm$svg$Svg$Attributes$style = _VirtualDom_attribute('style');
 var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
-var $author$project$Main$ToggleLight = function (a) {
-	return {$: 'ToggleLight', a: a};
-};
 var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
+var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
 var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
-var $elm$svg$Svg$Events$onClick = function (msg) {
-	return A2(
-		$elm$html$Html$Events$on,
-		'click',
-		$elm$json$Json$Decode$succeed(msg));
-};
-var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
-var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
 		if (maybe.$ === 'Just') {
@@ -6415,31 +6405,45 @@ var $elm$core$Maybe$withDefault = F2(
 var $author$project$Main$svgLight = F5(
 	function (model, name, cx, cy, r) {
 		return A2(
-			$elm$core$Maybe$withDefault,
-			false,
-			A2($elm$core$Dict$get, name, model.lights)) ? A2(
 			$elm$svg$Svg$circle,
 			_List_fromArray(
 				[
 					$elm$svg$Svg$Attributes$id(name),
+					A2(
+					$elm$core$Maybe$withDefault,
+					false,
+					A2($elm$core$Dict$get, name, model.lights)) ? $elm$svg$Svg$Attributes$class('on') : $elm$svg$Svg$Attributes$class('off'),
 					$elm$svg$Svg$Attributes$cx(cx),
 					$elm$svg$Svg$Attributes$cy(cy),
 					$elm$svg$Svg$Attributes$r(r),
-					$elm$svg$Svg$Attributes$fill('url(#rgrad)'),
-					$elm$svg$Svg$Events$onClick(
-					$author$project$Main$ToggleLight(name))
+					$elm$svg$Svg$Attributes$fill('url(#rgrad)')
 				]),
-			_List_Nil) : A2(
+			_List_Nil);
+	});
+var $author$project$Main$ToggleLight = function (a) {
+	return {$: 'ToggleLight', a: a};
+};
+var $elm$svg$Svg$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
+var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
+var $author$project$Main$svgLightButton = F4(
+	function (model, name, cx, cy) {
+		return A2(
 			$elm$svg$Svg$circle,
 			_List_fromArray(
 				[
 					$elm$svg$Svg$Attributes$id(name),
 					$elm$svg$Svg$Attributes$cx(cx),
 					$elm$svg$Svg$Attributes$cy(cy),
-					$elm$svg$Svg$Attributes$r('5'),
+					$elm$svg$Svg$Attributes$r('2'),
 					$elm$svg$Svg$Attributes$fill('red'),
 					$elm$svg$Svg$Attributes$stroke('black'),
-					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeWidth('0.5'),
 					$elm$svg$Svg$Events$onClick(
 					$author$project$Main$ToggleLight(name))
 				]),
@@ -6520,7 +6524,17 @@ var $author$project$Main$view = function (model) {
 						A5($author$project$Main$svgLight, model, 'bad3', '142', '55', '20'),
 						A5($author$project$Main$svgLight, model, 'garderobe', '140', '82', '20'),
 						A5($author$project$Main$svgLight, model, 'flur', '122', '82', '20'),
-						A5($author$project$Main$svgLight, model, 'kueche', '92', '90', '20')
+						A5($author$project$Main$svgLight, model, 'kueche', '92', '90', '20'),
+						A4($author$project$Main$svgLightButton, model, 'esstisch', '48', '92'),
+						A4($author$project$Main$svgLightButton, model, 'couchtisch', '57', '51'),
+						A4($author$project$Main$svgLightButton, model, 'gaestezimmer', '66', '18'),
+						A4($author$project$Main$svgLightButton, model, 'schlafzimmer', '110', '28'),
+						A4($author$project$Main$svgLightButton, model, 'bad1', '142', '14'),
+						A4($author$project$Main$svgLightButton, model, 'bad2', '142', '30'),
+						A4($author$project$Main$svgLightButton, model, 'bad3', '142', '55'),
+						A4($author$project$Main$svgLightButton, model, 'garderobe', '140', '82'),
+						A4($author$project$Main$svgLightButton, model, 'flur', '122', '82'),
+						A4($author$project$Main$svgLightButton, model, 'kueche', '92', '90')
 					])),
 				A2(
 				$elm$html$Html$button,

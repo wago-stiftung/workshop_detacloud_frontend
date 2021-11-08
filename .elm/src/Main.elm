@@ -165,37 +165,52 @@ view model =
             , svgLight model "garderobe""140" "82" "20"
             , svgLight model "flur" "122" "82" "20"
             , svgLight model "kueche" "92" "90" "20"
+
+            , svgLightButton model "esstisch" "48" "92"
+            , svgLightButton model "couchtisch" "57" "51"
+            , svgLightButton model "gaestezimmer" "66" "18"
+            , svgLightButton model "schlafzimmer""110" "28"
+            , svgLightButton model "bad1" "142" "14"
+            , svgLightButton model "bad2" "142" "30"
+            , svgLightButton model "bad3" "142" "55"
+            , svgLightButton model "garderobe""140" "82"
+            , svgLightButton model "flur" "122" "82"
+            , svgLightButton model "kueche" "92" "90"
             ]
         , button [ onClick GetLights ] [ text "Refresh" ]
         ]
 
 svgLight model name cx cy r =
-    if Maybe.withDefault False <| Dict.get name model.lights then
-        Svg.circle
-            [ SvgAttr.id name
-            -- , SvgAttr.class "on"
-            , SvgAttr.cx cx
-            , SvgAttr.cy cy
-            , SvgAttr.r r
-            -- , SvgAttr.height height
-            , SvgAttr.fill "url(#rgrad)"
-            , SvgEvent.onClick <| ToggleLight name
-            ]
-            []
-    else
-        Svg.circle
-            [ SvgAttr.id name
-            -- , SvgAttr.class "off"
-            , SvgAttr.cx cx
-            , SvgAttr.cy cy
-            , SvgAttr.r "5"
-            -- , SvgAttr.height height
-            , SvgAttr.fill "red"
-            , SvgAttr.stroke "black"
-            , SvgAttr.strokeWidth "2"
-            , SvgEvent.onClick <| ToggleLight name
-            ]
-            []
+    Svg.circle
+        [ SvgAttr.id name
+        , if Maybe.withDefault False <| Dict.get name model.lights then
+            SvgAttr.class "on"
+            else
+            SvgAttr.class "off"
+        , SvgAttr.cx cx
+        , SvgAttr.cy cy
+        , SvgAttr.r r
+        -- , SvgAttr.height height
+        , SvgAttr.fill "url(#rgrad)"
+        -- , SvgEvent.onClick <| ToggleLight name
+        ]
+        []
+
+
+svgLightButton model name cx cy =
+    Svg.circle
+        [ SvgAttr.id name
+        -- , SvgAttr.class "off"
+        , SvgAttr.cx cx
+        , SvgAttr.cy cy
+        , SvgAttr.r "2"
+        -- , SvgAttr.height height
+        , SvgAttr.fill "red"
+        , SvgAttr.stroke "black"
+        , SvgAttr.strokeWidth "0.5"
+        , SvgEvent.onClick <| ToggleLight name
+        ]
+        []
 
 
 -- MAIN

@@ -170,20 +170,33 @@ view model =
         ]
 
 svgLight model name cx cy r =
-    Svg.circle
-        [ if Maybe.withDefault False <| Dict.get name model.lights then
-            SvgAttr.class "on"
-          else
-            SvgAttr.class "off"
-        , SvgAttr.id name
-        , SvgAttr.cx cx
-        , SvgAttr.cy cy
-        , SvgAttr.r r
-        -- , SvgAttr.height height
-        , SvgAttr.fill "url(#rgrad)"
-        , SvgEvent.onClick <| ToggleLight name
-        ]
-        []
+    if Maybe.withDefault False <| Dict.get name model.lights then
+        Svg.circle
+            [ SvgAttr.id name
+            -- , SvgAttr.class "on"
+            , SvgAttr.cx cx
+            , SvgAttr.cy cy
+            , SvgAttr.r r
+            -- , SvgAttr.height height
+            , SvgAttr.fill "url(#rgrad)"
+            , SvgEvent.onClick <| ToggleLight name
+            ]
+            []
+    else
+        Svg.circle
+            [ SvgAttr.id name
+            -- , SvgAttr.class "off"
+            , SvgAttr.cx cx
+            , SvgAttr.cy cy
+            , SvgAttr.r "5"
+            -- , SvgAttr.height height
+            , SvgAttr.fill "red"
+            , SvgAttr.stroke "black"
+            , SvgAttr.strokeWidth "2"
+            , SvgEvent.onClick <| ToggleLight name
+            ]
+            []
+
 
 -- MAIN
 

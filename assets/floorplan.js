@@ -6394,7 +6394,6 @@ var $author$project$Main$ToggleLight = function (a) {
 	return {$: 'ToggleLight', a: a};
 };
 var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
-var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
 var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
 var $elm$svg$Svg$Events$onClick = function (msg) {
 	return A2(
@@ -6402,6 +6401,8 @@ var $elm$svg$Svg$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
+var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
 		if (maybe.$ === 'Just') {
@@ -6414,18 +6415,31 @@ var $elm$core$Maybe$withDefault = F2(
 var $author$project$Main$svgLight = F5(
 	function (model, name, cx, cy, r) {
 		return A2(
+			$elm$core$Maybe$withDefault,
+			false,
+			A2($elm$core$Dict$get, name, model.lights)) ? A2(
 			$elm$svg$Svg$circle,
 			_List_fromArray(
 				[
-					A2(
-					$elm$core$Maybe$withDefault,
-					false,
-					A2($elm$core$Dict$get, name, model.lights)) ? $elm$svg$Svg$Attributes$class('on') : $elm$svg$Svg$Attributes$class('off'),
 					$elm$svg$Svg$Attributes$id(name),
 					$elm$svg$Svg$Attributes$cx(cx),
 					$elm$svg$Svg$Attributes$cy(cy),
 					$elm$svg$Svg$Attributes$r(r),
 					$elm$svg$Svg$Attributes$fill('url(#rgrad)'),
+					$elm$svg$Svg$Events$onClick(
+					$author$project$Main$ToggleLight(name))
+				]),
+			_List_Nil) : A2(
+			$elm$svg$Svg$circle,
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$id(name),
+					$elm$svg$Svg$Attributes$cx(cx),
+					$elm$svg$Svg$Attributes$cy(cy),
+					$elm$svg$Svg$Attributes$r('5'),
+					$elm$svg$Svg$Attributes$fill('red'),
+					$elm$svg$Svg$Attributes$stroke('black'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
 					$elm$svg$Svg$Events$onClick(
 					$author$project$Main$ToggleLight(name))
 				]),
